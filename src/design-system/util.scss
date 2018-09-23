@@ -1,0 +1,390 @@
+/*============================================================================*\
+  HIDE / SHOW
+\*============================================================================*/
+
+@mixin visible {
+  visibility: visible;
+}
+
+@mixin invisible {
+  visibility: hidden;
+}
+
+
+/*============================================================================*\
+  RESET UTILITIES
+\*============================================================================*/
+
+@mixin list-reset {
+  list-style: none;
+  padding: 0;
+}
+
+@mixin appearance-none {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+}
+
+
+/*============================================================================*\
+  TABLE RENDERING
+\*============================================================================*/
+
+@mixin border-collapse {
+  border-collapse: collapse;
+}
+
+@mixin border-separate {
+  border-collapse: separate;
+}
+
+@mixin table-auto {
+  table-layout: auto;
+}
+
+@mixin table-fixed {
+  table-layout: fixed;
+}
+
+
+/*============================================================================*\
+  LAYOUT
+\*============================================================================*/
+
+@mixin static {
+  position: static;
+}
+
+@mixin fixed {
+  position: fixed;
+}
+
+@mixin absolute {
+  position: absolute;
+}
+
+@mixin relative {
+  position: relative;
+}
+
+@mixin sticky {
+  position: -webkit-sticky;
+  position: sticky;
+}
+
+@mixin clearfix {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+// call this new-origin?
+@mixin coord-sys {
+  position: relative;
+}
+
+@mixin layer {
+  position: absolute;
+}
+
+@mixin pin-all($distance: 0) {
+  top: $distance;
+  right: $distance;
+  bottom: $distance;
+  left: $distance;
+}
+
+@mixin unpin-all {
+  @include pin-all(auto);
+}
+
+@mixin pin-y($distance: 0) {
+  top: $distance;
+  bottom: $distance;
+}
+
+@mixin unpin-y {
+  @include pin-y(auto);
+}
+
+@mixin pin-x($distance: 0) {
+  right: $distance;
+  left: $distance;
+}
+
+@mixin unpin-x {
+  @include pin-x(auto);
+}
+
+@mixin pin-top($distance: 0) {
+  top: $distance;
+}
+
+@mixin unpin-top {
+  @include pin-top(auto);
+}
+
+@mixin pin-right($distance: 0) {
+  right: $distance;
+}
+
+@mixin unpin-right {
+  @include pin-right(auto);
+}
+
+@mixin pin-bottom($distance: 0) {
+  bottom: $distance;
+}
+
+@mixin unpin-bottom {
+  @include pin-bottom(auto);
+}
+
+@mixin pin-left($distance: 0) {
+  left: $distance;
+}
+
+@mixin unpin-left {
+  @include pin-left(auto);
+}
+
+
+/*============================================================================*\
+  TEXT RENDERING
+\*============================================================================*/
+
+@mixin italic {
+  font-style: italic;
+}
+
+@mixin roman {
+  font-style: normal;
+}
+
+@mixin uppercase {
+  text-transform: uppercase;
+}
+
+@mixin lowercase {
+  text-transform: lowercase;
+}
+
+@mixin capitalize {
+  text-transform: capitalize;
+}
+
+@mixin normal-case {
+  text-transform: none;
+}
+
+@mixin underline {
+  text-decoration: underline;
+}
+
+@mixin line-through {
+  text-decoration: line-through;
+}
+
+@mixin no-underline {
+  text-decoration: none;
+}
+
+@mixin antialiased {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+@mixin subpixel-antialiased {
+  -webkit-font-smoothing: auto;
+  -moz-osx-font-smoothing: auto;
+}
+
+@mixin text-left {
+  text-align: left;
+}
+
+@mixin text-center {
+  text-align: center;
+}
+
+@mixin text-right {
+  text-align: right;
+}
+
+@mixin text-justify {
+  text-align: justify;
+}
+
+@mixin no-underline {
+  text-decoration: none;
+}
+
+@mixin align-baseline {
+  vertical-align: baseline;
+}
+
+@mixin align-top {
+  vertical-align: top;
+}
+
+@mixin align-middle {
+  vertical-align: middle;
+}
+
+@mixin align-bottom {
+  vertical-align: bottom;
+}
+
+@mixin align-text-top {
+  vertical-align: text-top;
+}
+
+@mixin align-text-bottom {
+  vertical-align: text-bottom;
+}
+
+@mixin break-words {
+  word-wrap: break-word;
+}
+
+@mixin text-nowrap {
+  white-space: nowrap;
+}
+
+@mixin text-pre {
+  white-space: pre;
+}
+
+@mixin text-pre-line {
+  white-space: pre-line;
+}
+
+@mixin text-pre-wrap {
+  white-space: pre-wrap;
+}
+
+
+/*============================================================================*\
+  USER INTERACTION
+\*============================================================================*/
+
+@mixin no-mouse {
+  pointer-events: none;
+}
+
+@mixin no-resize {
+  resize: none;
+}
+
+@mixin resize {
+  resize: both;
+}
+
+@mixin resize-y {
+  resize: vertical;
+}
+
+@mixin resize-x {
+  resize: horizontal;
+}
+
+@mixin not-selectable {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+@mixin selectable {
+  -webkit-user-select: text;
+  -moz-user-select: text;
+  -ms-user-select: text;
+  user-select: text;
+}
+
+
+/*============================================================================*\
+  SCROLLING
+\*============================================================================*/
+
+@mixin scroll-x {
+  overflow-x: auto;
+}
+
+@mixin scroll-y {
+  overflow-y: auto;
+}
+
+@mixin scroll-xy {
+  overflow-x: auto;
+  overflow-y: auto;
+}
+
+@mixin momentum-scrolling {
+  -webkit-overflow-scrolling: touch;
+}
+
+/*============================================================================*\
+  SVG RENDERING
+\*============================================================================*/
+
+@mixin svg-fill-inherit {
+  fill: currentColor;
+}
+
+@mixin svg-stroke-inherit {
+  stroke: currentColor;
+}
+
+
+/*============================================================================*\
+  CLIPPING & OVERFLOW
+\*============================================================================*/
+
+@mixin clip {
+  overflow: hidden;
+}
+
+@mixin clip-x {
+  overflow-x: hidden;
+}
+
+@mixin clip-y {
+  overflow-y: hidden;
+}
+
+@mixin overflow {
+  overflow: visible;
+}
+
+@mixin overflow-x {
+  overflow-x: visible;
+}
+
+@mixin overflow-y {
+  overflow-y: visible;
+}
+
+@mixin truncate {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+
+/*============================================================================*\
+  BACKGROUND SIZES
+\*============================================================================*/
+
+@mixin bg-size-auto {
+  background-size: auto;
+}
+
+@mixin bg-size-cover {
+  background-size: cover;
+}
+
+@mixin bg-size-contain {
+  background-size: contain;
+}

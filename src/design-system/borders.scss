@@ -1,0 +1,62 @@
+/*============================================================================*\
+  STROKE WEIGHTS (BORDER WIDTHS)
+\*============================================================================*/
+
+$stroke-weight-default: 1px;
+$stroke-weight-0: 0;
+$stroke-weight-1: 1px;
+$stroke-weight-2: 2px;
+$stroke-weight-4: 4px;
+$stroke-weight-8: 8px;
+
+
+/*============================================================================*\
+  CORNER RADII
+\*============================================================================*/
+
+$corner-radius-default: .25rem;
+$corner-radius-none: 0;
+$corner-radius-sm: .125rem;
+$corner-radius-md: .25rem;
+$corner-radius-lg: .5rem;
+$corner-radius-full: 9999px;
+
+@mixin rounded($radius: $corner-radius-default) {
+  border-radius: $radius;
+}
+
+@mixin rounded-top($radius: $corner-radius-default) {
+  border-top-left-radius: $radius;
+  border-top-right-radius: $radius;
+}
+
+@mixin rounded-right($radius: $corner-radius-default) {
+  border-top-right-radius: $radius;
+  border-bottom-right-radius: $radius;
+}
+
+@mixin rounded-bottom($radius: $corner-radius-default) {
+  border-top-left-radius: $radius;
+  border-top-right-radius: $radius;
+}
+
+@mixin rounded-left($radius: $corner-radius-default) {
+  border-top-left-radius: $radius;
+  border-bottom-left-radius: $radius;
+}
+
+@mixin rounded-top-left($radius: $corner-radius-default) {
+  border-top-left-radius: $radius;
+}
+
+@mixin rounded-top-right($radius: $corner-radius-default) {
+  border-top-right-radius: $radius;
+}
+
+@mixin rounded-bottom-right($radius: $corner-radius-default) {
+  border-bottom-right-radius: $radius;
+}
+
+@mixin rounded-bottom-left($radius: $corner-radius-default) {
+  border-bottom-left-radius: $radius;
+}

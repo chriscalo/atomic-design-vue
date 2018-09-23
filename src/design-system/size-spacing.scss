@@ -1,0 +1,89 @@
+/*============================================================================*\
+  SIZE
+\*============================================================================*/
+
+$size-auto: auto;
+$size-px: 1px;
+$size-1: 0.25rem;
+$size-2: 0.5rem;
+$size-3: 0.75rem;
+$size-4: 1rem;
+$size-5: 1.25rem;
+$size-6: 1.5rem;
+$size-8: 2rem;
+$size-10: 2.5rem;
+$size-12: 3rem;
+$size-16: 4rem;
+$size-24: 6rem;
+$size-32: 8rem;
+$size-48: 12rem;
+$size-64: 16rem;
+$size-half: 50%;
+$size-one-third: 33.33333%;
+$size-two-thirds: 66.66667%;
+$size-one-quarter: 25%;
+$size-three-quarters: 75%;
+$size-one-fifth: 20%;
+$size-two-fifths: 40%;
+$size-three-fifths: 60%;
+$size-four-fifths: 80%;
+$size-one-sixth: 16.66667%;
+$size-five-sixths: 83.33333%;
+$size-full: 100%;
+$size-screen-width: 100vw;
+$size-screen-height: 100vh;
+
+/*============================================================================*\
+  SPACING
+  TODO: do we really need both $size-* AND $spacing-*?
+\*============================================================================*/
+
+$spacing-none: 0;
+$spacing-1: 0.25rem;
+$spacing-2: 0.5rem;
+$spacing-3: 0.75rem;
+$spacing-4: 1rem;
+$spacing-5: 1.25rem;
+$spacing-6: 1.5rem;
+$spacing-8: 2rem;
+$spacing-10: 2.5rem;
+$spacing-12: 3rem;
+$spacing-16: 4rem;
+$spacing-24: 6rem;
+$spacing-32: 8rem;
+$spacing-48: 12rem;
+$spacing-64: 16rem;
+$spacing-half: 50%;
+$spacing-one-third: 33.33333%;
+$spacing-two-thirds: 66.66667%;
+$spacing-one-quarter: 25%;
+$spacing-three-quarters: 75%;
+$spacing-one-fifth: 20%;
+$spacing-two-fifths: 40%;
+$spacing-three-fifths: 60%;
+$spacing-four-fifths: 80%;
+$spacing-one-sixth: 16.66667%;
+$spacing-five-sixths: 83.33333%;
+$spacing-full: 100%;
+$spacing-screen-width: 100vw;
+$spacing-screen-height: 100vh;
+
+@mixin margin-y($value) {
+  margin-top: $value;
+  margin-bottom: $value;
+}
+
+@mixin margin-x($value) {
+  margin-left: $value;
+  margin-right: $value;
+}
+
+@mixin padding-y($value) {
+  padding-top: $value;
+  padding-bottom: $value;
+}
+
+@mixin padding-x($value) {
+  margin-left: $value;
+  padding-right: $value;
+}
