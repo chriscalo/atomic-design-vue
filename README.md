@@ -176,7 +176,7 @@ and use them:
 }
 
 .pane-left {
-  @extends .pane;
+  @extend .pane;
   @include unpin-right;
 }
 ```
