@@ -1,6 +1,6 @@
 # atomic-scss-vue
 
-An SCSS design system inspired by Tailwind.
+An SCSS design system inspired by Tailwind, integrated into the Vue starter app.
 
 ## Design Tokens
 
