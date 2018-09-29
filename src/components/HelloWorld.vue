@@ -60,7 +60,7 @@
   @import "@/design-system/design-system.scss";
   
   .hello {
-    border: solid 10px $teal;
+    border: solid 10px $color-teal;
     font-family: $font-mono;
     font-size: $text-xl;
     @include rounded(20px);
