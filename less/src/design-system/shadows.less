@@ -1,0 +1,20 @@
+/*============================================================================*\
+  SHADOWS
+\*============================================================================*/
+
+.shadow(@distance: 2px, @base-color: black, @opacity: 0.10) {
+  box-shadow:
+    0 @distance (2 * @distance) 0 fade(@base-color, percentage(@opacity));
+}
+
+// .inset-shadow(@distance: 2px, @base-color: black, @opacity: 0.10) {
+//   return inset shadow(@distance, @base-color, @opacity);
+// }
+
+// @shadow-sm: shadow();
+// @shadow-md: shadow(4px, black, 0.12), shadow(2px, black, 0.08);
+// @shadow-lg: shadow(15px, black, 0.11), shadow(5px, black, 0.08);
+// @shadow-inner: inset-shadow(2px, black, 0.06);
+@shadow-outline: 0 0 0 3px rgba(52,144,220,0.5);
+@shadow-none: none;
+// @shadow-default: @shadow-sm;

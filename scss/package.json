@@ -1,7 +1,7 @@
 {
-  "name": "atomic-scss-vue",
+  "name": "atomic-design-vue-scss",
   "version": "0.1.0",
-  "description": "An SCSS design system inspired by Tailwind.",
+  "description": "An SCSS design system inspired by Tailwind",
   "license": "MIT",
   "private": false,
   "scripts": {
