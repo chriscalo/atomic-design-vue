@@ -9,13 +9,13 @@
     "build": "vue-cli-service build"
   },
   "dependencies": {
-    "less": "^3.8.1",
-    "less-loader": "^4.1.0",
     "vue": "^2.5.17"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^3.0.3",
     "@vue/cli-service": "^3.0.3",
+    "less": "^3.8.1",
+    "less-loader": "^4.1.0",
     "vue-template-compiler": "^2.5.17"
   }
 }
