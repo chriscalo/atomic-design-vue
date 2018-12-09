@@ -39,6 +39,7 @@ import * as color from "../design-system/colors";
 import { rounded } from "../design-system/borders";
 import { shadow } from "../design-system/shadows";
 import { margin } from "../design-system/size-spacing";
+import { FontStack, font, TextSize } from "../design-system/typography";
 
 export default {
   name: 'HelloWorld',
@@ -49,8 +50,8 @@ export default {
     styles() {
       return css`
         border: solid 10px ${color.teal};
-        font-family: $font-mono;
-        font-size: $text-xl;
+        font-family: ${FontStack.mono};
+        font-size: ${TextSize.xl};
         ${ rounded("20px") };
         ${ margin.y("20px") };
         
