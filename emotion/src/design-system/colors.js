@@ -1,3 +1,88 @@
+import chroma from "chroma-js";
+
+console.clear();
+
+const n = 12;
+const hues = {
+  "Unnamed 15": 15,
+  "Red": 30,
+  "Burnt orange": 45,
+  "Orange": 60,
+  "Brown": 75,
+  "Tan": 90,
+  "Unnamed 105": 105,
+  // "Unnamed 120": 120,
+  // "Unnamed 135": 135,
+  "Green": 150,
+  // "Unnamed 165": 165,
+  "Sea green": 180,
+  "Teal": 195,
+  "Aqua": 210,
+  // "Unnamed 225": 225,
+  "Sky blue": 240,
+  // "Unnamed 255": 255,
+  // "Unnamed 270": 270,
+  "Blue": 285,
+  "Indigo": 300,
+  "Purple": 315,
+  "Magenta": 330,
+  "Pink": 345,
+  "Unnamed 360": 360,
+};
+
+const colors = Object.entries(hues).map(([name, h]) => ({
+  name,
+  color: chroma.hcl(h, 100, 50),
+}));
+
+colors.forEach(color => {
+  log(color.color, color.name);
+});
+
+colors.forEach(color => {
+  var { color, name } = color;
+  color = chroma(color).set("hcl.l", 75);
+  log(color, `Bright ${name}`);
+});
+
+
+const scales = colors.map(color => {
+  return ({
+    name: color.name,
+    scale: chroma.scale(["white", color.color])
+      .mode("hcl")
+      .domain([0, 100])
+  });
+});
+
+scales.forEach(scale => {
+  log(scale.scale(10), `${scale.name} 10`);
+  log(scale.scale(20), `${scale.name} 20`);
+  log(scale.scale(30), `${scale.name} 30`);
+  log(scale.scale(40), `${scale.name} 40`);
+  log(scale.scale(50), `${scale.name} 50`);
+  log(scale.scale(60), `${scale.name} 60`);
+  log(scale.scale(70), `${scale.name} 70`);
+  log(scale.scale(80), `${scale.name} 80`);
+  log(scale.scale(90), `${scale.name} 90`);
+  log(scale.scale(100), `${scale.name} 100`);
+});
+
+function log(color, msg) {
+  const LUMINANCE_THRESHOLD = 0.40;
+  color = chroma(color);
+  const text = color.luminance() <= LUMINANCE_THRESHOLD ? "white" : "black";
+  console.log(
+    `%c${msg}`,
+    `
+      background: ${color};
+      color: ${text};
+      padding: 4px;
+      border-radius: 4px;
+    `
+  );
+}
+
 /*============================================================================*\
   COLORS
 \*============================================================================*/
