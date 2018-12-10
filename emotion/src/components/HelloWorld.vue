@@ -40,11 +40,14 @@ import { rounded } from "../design-system/borders";
 import { shadow } from "../design-system/shadows";
 import { margin } from "../design-system/size-spacing";
 import { FontStack, font, TextSize } from "../design-system/typography";
+import lerp from "lerp";
 
 export default {
   name: 'HelloWorld',
   data: () => ({
     color: 'red',
+    x: 0.5,
+    y: 0.5,
   }),
   computed: {
     styles() {
@@ -55,7 +58,10 @@ export default {
         ${ rounded("20px") };
         ${ margin.y("20px") };
         
-        // these will get overridden
+        transform:
+          rotateY(${ lerp(20, -20, this.x) }deg)
+          rotateX(${ lerp(20, -20, this.y) }deg);
+        
         box-shadow:
           ${ shadow("10px", "cyan", 0.5) },
           ${ shadow.inset("10px", "magenta", 0.5) };
@@ -79,6 +85,15 @@ export default {
           color: #42b983;
         }
       `;
+    },
+  },
+  mounted() {
+    document.addEventListener("mousemove", this.mousemove);
+  },
+  methods: {
+    mousemove(event) {
+      this.x = event.clientX / window.innerWidth;
+      this.y = event.clientY / window.innerHeight;
     },
   },
   props: {
