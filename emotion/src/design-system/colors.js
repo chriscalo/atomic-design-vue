@@ -27,7 +27,7 @@ const hues = {
   "Purple": 315,
   "Magenta": 330,
   "Pink": 345,
-  "Unnamed 360": 360,
+  "Rose": 360,
 };
 
 const colors = Object.entries(hues).map(([name, h]) => ({
@@ -47,25 +47,70 @@ colors.forEach(color => {
 
 
 const scales = colors.map(color => {
+  const middlegrey = chroma.mix("white", "black");
   return ({
     name: color.name,
-    scale: chroma.scale(["white", color.color])
-      .mode("hcl")
-      .domain([0, 100])
+    
+    tint:
+      chroma
+        .scale([color.color, "white"])
+        .mode("hcl")
+        .domain([0, 100]),
+      
+    shade:
+      chroma
+        .scale([color.color, "black"])
+        .mode("hcl")
+        .domain([0, 100]),
+    
+    tone:
+      chroma
+        .scale([color.color, middlegrey])
+        .mode("hcl")
+        .domain([0, 100]),
   });
 });
 
 scales.forEach(scale => {
-  log(scale.scale(10), `${scale.name} 10`);
-  log(scale.scale(20), `${scale.name} 20`);
-  log(scale.scale(30), `${scale.name} 30`);
-  log(scale.scale(40), `${scale.name} 40`);
-  log(scale.scale(50), `${scale.name} 50`);
-  log(scale.scale(60), `${scale.name} 60`);
-  log(scale.scale(70), `${scale.name} 70`);
-  log(scale.scale(80), `${scale.name} 80`);
-  log(scale.scale(90), `${scale.name} 90`);
-  log(scale.scale(100), `${scale.name} 100`);
+  log(scale.tint(0), `${scale.name} Tint 0`);
+  log(scale.tint(10), `${scale.name} Tint 10`);
+  log(scale.tint(20), `${scale.name} Tint 20`);
+  log(scale.tint(30), `${scale.name} Tint 30`);
+  log(scale.tint(40), `${scale.name} Tint 40`);
+  log(scale.tint(50), `${scale.name} Tint 50`);
+  log(scale.tint(60), `${scale.name} Tint 60`);
+  log(scale.tint(70), `${scale.name} Tint 70`);
+  log(scale.tint(80), `${scale.name} Tint 80`);
+  log(scale.tint(90), `${scale.name} Tint 90`);
+  log(scale.tint(100), `${scale.name} Tint 100`);
+});
+
+scales.forEach(scale => {
+  log(scale.shade(0), `${scale.name} Shade 0`);
+  log(scale.shade(10), `${scale.name} Shade 10`);
+  log(scale.shade(20), `${scale.name} Shade 20`);
+  log(scale.shade(30), `${scale.name} Shade 30`);
+  log(scale.shade(40), `${scale.name} Shade 40`);
+  log(scale.shade(50), `${scale.name} Shade 50`);
+  log(scale.shade(60), `${scale.name} Shade 60`);
+  log(scale.shade(70), `${scale.name} Shade 70`);
+  log(scale.shade(80), `${scale.name} Shade 80`);
+  log(scale.shade(90), `${scale.name} Shade 90`);
+  log(scale.shade(100), `${scale.name} Shade 100`);
+});
+
+scales.forEach(scale => {
+  log(scale.tone(0), `${scale.name} Tone 0`);
+  log(scale.tone(10), `${scale.name} Tone 10`);
+  log(scale.tone(20), `${scale.name} Tone 20`);
+  log(scale.tone(30), `${scale.name} Tone 30`);
+  log(scale.tone(40), `${scale.name} Tone 40`);
+  log(scale.tone(50), `${scale.name} Tone 50`);
+  log(scale.tone(60), `${scale.name} Tone 60`);
+  log(scale.tone(70), `${scale.name} Tone 70`);
+  log(scale.tone(80), `${scale.name} Tone 80`);
+  log(scale.tone(90), `${scale.name} Tone 90`);
+  log(scale.tone(100), `${scale.name} Tone 100`);
 });
 
 function log(color, msg) {
