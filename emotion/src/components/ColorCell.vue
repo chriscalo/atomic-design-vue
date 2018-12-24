@@ -38,12 +38,7 @@ export default {
     chroma: () => chroma,
   },
   methods: {
-    textColor(color) {
-      const LUMINANCE_THRESHOLD = 0.40;
-      color = chroma(color);
-      const text = color.luminance() <= LUMINANCE_THRESHOLD ? "white" : "black";
-      return text;
-    }
+    textColor: color.textForBg,
   },
 }
 </script>

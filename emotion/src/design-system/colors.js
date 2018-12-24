@@ -1,20 +1,23 @@
 import chroma from "chroma-js";
 import Bezier from "bezier-js";
 
-const curve = Bezier.cubicFromPoints(
-  {x: 0, y: 0.25},
-  {x: 50, y: 1},
-  {x: 100, y: 0.25},
-  0.5
-);
-
-const cubicChroma = maxChroma => value => curve.get(value / 100).y * maxChroma;
+// used to retain saturation as colors get closer to white or black
+const createChromaScale = maxChroma => {
+  const minChroma = 0.25 * maxChroma;
+  const curve = Bezier.cubicFromPoints(
+    {x: 0, y: minChroma}, // min value at 0
+    {x: 50, y: maxChroma}, // max value at 50
+    {x: 100, y: minChroma}, // min value at 0
+  );
+  // `get` parameter domain is [0, 1], so we convert from [0, 100] domain
+  return value => curve.get(value / 100).y;
+};
 
 const middlegrey = chroma.mix("white", "black", 0.5, "hcl");
-const coolgreyHue = chroma.temperature(10000).get("hcl.h");
-const warmgreyHue = chroma.temperature(3500).get("hcl.h");
-const coolgreyChroma = cubicChroma(5);
-const warmgreyChroma = cubicChroma(10);
+const coolGreyHue = chroma.temperature(10000).get("hcl.h");
+const warmGreyHue = chroma.temperature(5000).get("hcl.h");
+const coolGreyChromaScale = createChromaScale(5);
+const warmGreyChromaScale = createChromaScale(10);
 
 export const greyscales = {
   
@@ -24,160 +27,43 @@ export const greyscales = {
     "black"
   ])
   .mode("hcl")
+  .correctLightness()
   .domain([0, 100]),
   
-  // TODO: use bezier chroma
   cool: chroma.scale([
-    chroma.hcl(coolgreyHue, coolgreyChroma(0), 100),
-    chroma.hcl(coolgreyHue, coolgreyChroma(10), 90),
-    chroma.hcl(coolgreyHue, coolgreyChroma(20), 80),
-    chroma.hcl(coolgreyHue, coolgreyChroma(30), 70),
-    chroma.hcl(coolgreyHue, coolgreyChroma(40), 60),
-    chroma.hcl(coolgreyHue, coolgreyChroma(50), 50),
-    chroma.hcl(coolgreyHue, coolgreyChroma(60), 40),
-    chroma.hcl(coolgreyHue, coolgreyChroma(70), 30),
-    chroma.hcl(coolgreyHue, coolgreyChroma(80), 20),
-    chroma.hcl(coolgreyHue, coolgreyChroma(90), 10),
-    chroma.hcl(coolgreyHue, coolgreyChroma(100), 0),
+    chroma.hcl(coolGreyHue, coolGreyChromaScale(0), 100),
+    chroma.hcl(coolGreyHue, coolGreyChromaScale(10), 90),
+    chroma.hcl(coolGreyHue, coolGreyChromaScale(20), 80),
+    chroma.hcl(coolGreyHue, coolGreyChromaScale(30), 70),
+    chroma.hcl(coolGreyHue, coolGreyChromaScale(40), 60),
+    chroma.hcl(coolGreyHue, coolGreyChromaScale(50), 50),
+    chroma.hcl(coolGreyHue, coolGreyChromaScale(60), 40),
+    chroma.hcl(coolGreyHue, coolGreyChromaScale(70), 30),
+    chroma.hcl(coolGreyHue, coolGreyChromaScale(80), 20),
+    chroma.hcl(coolGreyHue, coolGreyChromaScale(90), 10),
+    chroma.hcl(coolGreyHue, coolGreyChromaScale(100), 0),
   ])
   .mode("hcl")
+  .correctLightness()
   .domain([0, 100]),
   
-  // TODO: use bezier chroma
   warm: chroma.scale([
-    chroma.hcl(warmgreyHue, warmgreyChroma(0), 100),
-    chroma.hcl(warmgreyHue, warmgreyChroma(10), 90),
-    chroma.hcl(warmgreyHue, warmgreyChroma(20), 80),
-    chroma.hcl(warmgreyHue, warmgreyChroma(30), 70),
-    chroma.hcl(warmgreyHue, warmgreyChroma(40), 60),
-    chroma.hcl(warmgreyHue, warmgreyChroma(50), 50),
-    chroma.hcl(warmgreyHue, warmgreyChroma(60), 40),
-    chroma.hcl(warmgreyHue, warmgreyChroma(70), 30),
-    chroma.hcl(warmgreyHue, warmgreyChroma(80), 20),
-    chroma.hcl(warmgreyHue, warmgreyChroma(90), 10),
-    chroma.hcl(warmgreyHue, warmgreyChroma(100), 0),
+    chroma.hcl(warmGreyHue, warmGreyChromaScale(0), 100),
+    chroma.hcl(warmGreyHue, warmGreyChromaScale(10), 90),
+    chroma.hcl(warmGreyHue, warmGreyChromaScale(20), 80),
+    chroma.hcl(warmGreyHue, warmGreyChromaScale(30), 70),
+    chroma.hcl(warmGreyHue, warmGreyChromaScale(40), 60),
+    chroma.hcl(warmGreyHue, warmGreyChromaScale(50), 50),
+    chroma.hcl(warmGreyHue, warmGreyChromaScale(60), 40),
+    chroma.hcl(warmGreyHue, warmGreyChromaScale(70), 30),
+    chroma.hcl(warmGreyHue, warmGreyChromaScale(80), 20),
+    chroma.hcl(warmGreyHue, warmGreyChromaScale(90), 10),
+    chroma.hcl(warmGreyHue, warmGreyChromaScale(100), 0),
   ])
   .mode("hcl")
+  .correctLightness()
   .domain([0, 100]),
 };
-
-
-// See: https://uxdesign.cc/my-struggle-with-colors-part-ii-ed71bff6302a
-export const zainScales = [{
-  name: "Grey",
-  scale: chroma.scale([
-    "#e3e3e3",
-    "#c7c7c7",
-    "#acacac",
-    "#909090",
-    "#757575",
-    "#5d5d5d",
-    "#464646",
-    "#2e2e2e",
-    "#171717",
-  ]).domain([10, 90]),
-}, {
-  name: "Red",
-  scale: chroma.scale([
-    "#fed1d1",
-    "#f7aaaa",
-    "#f68181",
-    "#ef5656",
-    "#e22929",
-    "#c20f0f",
-    "#9e0505",
-    "#790404",
-    "#4f0303",
-  ]).domain([10, 90]),
-}, {
-  name: "Yellow",
-  scale: chroma.scale([
-    "#f6dc9a",
-    "#eaba43",
-    "#d59a04",
-    "#b68304",
-    "#986e03",
-    "#7d5a01",
-    "#644802",
-    "#4b3601",
-    "#2f2200",
-  ]).domain([10, 90]),
-}, {
-  name: "Green",
-  scale: chroma.scale([
-    "#beeca6",
-    "#8ad364",
-    "#5bbb28",
-    "#40a10e",
-    "#338707",
-    "#2a7006",
-    "#225905",
-    "#194204",
-    "#102902",
-  ]).domain([10, 90]),
-}, {
-  name: "Blue",
-  scale: chroma.scale([
-    "#bbe2fb",
-    "#7cc8f7",
-    "#4eace7",
-    "#2493d9",
-    "#0b7ac2",
-    "#0965a0",
-    "#075180",
-    "#053d60",
-    "#03273e",
-  ]).domain([10, 90]),
-}, {
-  name: "Purple",
-  scale: chroma.scale([
-    "#e7d7f7",
-    "#d1b3f2",
-    "#bd91eb",
-    "#ac6eed",
-    "#9752e0",
-    "#8138ce",
-    "#6927af",
-    "#52198c",
-    "#35115c",
-  ]).domain([10, 90]),
-}];
-
-function withChromaClipped(h, c, l) {
-  // console.log(`withChromaClipped(${
-  //   h.toFixed(2)
-  // }, ${
-  //   c.toFixed(2)
-  // }, ${
-  //   l.toFixed(2)
-  // })`);
-  const tolerance = 1;
-  const step = 0.1;
-  let color, distance;
-  do {
-    color = chroma.hcl(h, c, l);
-    // console.log(
-    //   `chroma.hcl(${
-    //     h.toFixed(2)
-    //   }, ${
-    //     c.toFixed(2)
-    //   }, ${
-    //     l.toFixed(2)
-    //   }) => chroma.hcl(${
-    //     color.get("hcl.h").toFixed(2)
-    //   }, ${
-    //     color.get("hcl.c").toFixed(2)
-    //   }, ${
-    //     color.get("hcl.l").toFixed(2)
-    //   })`
-    // );
-    c += -step; // decrement after color created so it's ready on next iteration
-    distance = Math.abs(l - color.get("hcl.l"));
-  }
-  while (distance > tolerance);
-  // console.log(`stopping at distance = ${distance.toFixed(2)}`);
-  return color;
-}
 
 const n = 12;
 const hues = {
@@ -207,158 +93,55 @@ const hues = {
   "Rose": 360,
 };
 
-export const colors = Object.entries(hues).map(([name, h]) => ({
+const colors = Object.entries(hues).map(([name, h]) => ({
   name,
   color: chroma.hcl(h, 75, 50),
 }));
 
-colors.forEach(color => {
-  log(color.color, color.name);
-});
-
-colors.forEach(color => {
-  var { color, name } = color;
-  color = chroma(color).set("hcl.l", 75);
-  log(color, `Bright ${name}`);
-});
-
-log(chroma.mix("white", "black").hex(), "Middle grey");
-
 export const scales = colors.map(color => {
   const h = color.color.get("hcl.h");
   const c = color.color.get("hcl.c");
-  const chromaValue = cubicChroma(c);
+  const chromaScale = createChromaScale(c);
   
-  const lighter1 = chroma.scale([
-    chroma.hcl(h, chromaValue(0), 100),
-    chroma.hcl(h, chromaValue(10), 90),
-    chroma.hcl(h, chromaValue(20), 80),
-    chroma.hcl(h, chromaValue(30), 70),
-    chroma.hcl(h, chromaValue(40), 60),
-    chroma.hcl(h, chromaValue(50), 50),
+  const lighter = chroma.scale([
+    chroma.hcl(h, chromaScale(0), 100),
+    chroma.hcl(h, chromaScale(10), 90),
+    chroma.hcl(h, chromaScale(20), 80),
+    chroma.hcl(h, chromaScale(30), 70),
+    chroma.hcl(h, chromaScale(40), 60),
+    chroma.hcl(h, chromaScale(50), 50),
   ])
   .mode("hcl")
-  .domain([0, 50]);
-  
-  const darker1 = chroma.scale([
-    chroma.hcl(h, chromaValue(50), 50),
-    chroma.hcl(h, chromaValue(60), 40),
-    chroma.hcl(h, chromaValue(70), 30),
-    chroma.hcl(h, chromaValue(80), 20),
-    chroma.hcl(h, chromaValue(90), 10),
-    chroma.hcl(h, chromaValue(100), 0),
-  ])
-  .mode("hcl")
-  .domain([50, 100]);
-  
-  const lighter2 = chroma.scale([
-    "white",
-    color.color,
-  ])
-  .mode("hcl")
-  .gamma(2)
   .correctLightness()
   .domain([0, 50]);
   
-  const darker2 = chroma.scale([
-    color.color,
-    "black",
+  const darker = chroma.scale([
+    chroma.hcl(h, chromaScale(50), 50),
+    chroma.hcl(h, chromaScale(60), 40),
+    chroma.hcl(h, chromaScale(70), 30),
+    chroma.hcl(h, chromaScale(80), 20),
+    chroma.hcl(h, chromaScale(90), 10),
+    chroma.hcl(h, chromaScale(100), 0),
   ])
   .mode("hcl")
-  .gamma(2)
   .correctLightness()
   .domain([50, 100]);
   
-  // ==========================================================================
-  //
-  // THESE ARE THE WINNING SCALES!!!
-  //
-  // ==========================================================================
-  const lighter = lighter1.correctLightness();
-  const darker = darker1.correctLightness();
-
   return ({
     name: color.name,
     base: color.color.css(),
-    
     scale: value => {
       return (value > 50) ? darker(value) : lighter(value);
     },
-        
-    scale4:
-      chroma
-        .scale([
-          withChromaClipped(h, c, 100),
-          withChromaClipped(h, c, 90),
-          withChromaClipped(h, c, 80),
-          withChromaClipped(h, c, 70),
-          withChromaClipped(h, c, 60),
-          withChromaClipped(h, c, 50),
-          withChromaClipped(h, c, 40),
-          withChromaClipped(h, c, 30),
-          withChromaClipped(h, c, 20),
-          withChromaClipped(h, c, 10),
-          withChromaClipped(h, c, 0),
-        ])
-        .mode("hcl")
-        .domain([0, 100]),
-    
-    scale1:
-      chroma
-        .scale([
-          chroma.hcl(h, c, 100),
-          chroma.hcl(h, c, 90),
-          chroma.hcl(h, c, 80),
-          chroma.hcl(h, c, 70),
-          chroma.hcl(h, c, 60),
-          chroma.hcl(h, c, 50),
-          chroma.hcl(h, c, 40),
-          chroma.hcl(h, c, 30),
-          chroma.hcl(h, c, 20),
-          chroma.hcl(h, c, 10),
-          chroma.hcl(h, c, 0),
-        ])
-        .mode("hcl")
-        .correctLightness()
-        .domain([0, 100]),
-        
-    scale3:
-      chroma
-        .scale([
-          color.color.set("hcl.l", 100),
-          color.color.set("hcl.l", 90),
-          color.color.set("hcl.l", 80),
-          color.color.set("hcl.l", 70),
-          color.color.set("hcl.l", 60),
-          color.color.set("hcl.l", 50),
-          color.color.set("hcl.l", 40),
-          color.color.set("hcl.l", 30),
-          color.color.set("hcl.l", 20),
-          color.color.set("hcl.l", 10),
-          color.color.set("hcl.l", 0),
-        ])
-        .mode("hcl")
-        // .gamma(1.5)
-        .domain([0, 100]),
   });
 });
 
-function log(color, msg) {
-  const LUMINANCE_THRESHOLD = 0.40;
-  color = chroma(color);
-  const text = color.luminance() <= LUMINANCE_THRESHOLD ? "white" : "black";
-  console.log(
-    `%c${msg}`,
-    `
-      background: ${color};
-      color: ${text};
-      padding: 8px;
-      border-radius: 4px;
-    `
-  );
-}
-
-window.logColor = log;
+// given a background color, returns a text color, either white or black
+export const textForBg = bgColor => {
+  const LUMINANCE_THRESHOLD = 0.45;
+  bgColor = chroma(bgColor);
+  return bgColor.luminance() <= LUMINANCE_THRESHOLD ? "white" : "black";
+};
 
 /*============================================================================*\
   COLORS
