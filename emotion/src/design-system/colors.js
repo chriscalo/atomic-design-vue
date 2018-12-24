@@ -10,15 +10,14 @@ const createChromaScale = maxChroma => {
   //     |     x            x
   //     |  x                 x
   // min | o                   o
-  //     |
-  //     ------------------------
+  //     |_______________________
   //       0        50        100
   const curve = Bezier.cubicFromPoints(
-    {x: 0, y: minChroma}, // min value at 0
-    {x: 50, y: maxChroma}, // max value at 50
-    {x: 100, y: minChroma}, // min value at 0
+    {x: 0, y: minChroma},
+    {x: 50, y: maxChroma},
+    {x: 100, y: minChroma},
   );
-  // `get` parameter domain is [0, 1], so we convert from [0, 100] domain
+  // convert from [0, 100] domain to Bezier domain of [0, 1]
   return value => curve.get(value / 100).y;
 };
 
