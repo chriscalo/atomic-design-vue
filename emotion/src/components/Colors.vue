@@ -5,6 +5,7 @@
         <th>
           Color name
         </th>
+        <th>5</th>
         <th>10</th>
         <th>20</th>
         <th>30</th>
@@ -14,14 +15,33 @@
         <th>70</th>
         <th>80</th>
         <th>90</th>
+        <th>95</th>
       </thead>
       <tbody>
         <tr>
-          <th>Grey</th>
+          <th>Neutral grey</th>
           <ColorCell
-            v-for="value in [10, 20, 30, 40, 50, 60, 70, 80, 90]"
+            v-for="value in [5, 10, 20, 30, 40, 50, 60, 70, 80, 90, 95]"
             :key="`Neutral Grey ${value}`"
-            :color="greyscale(value)"
+            :color="greys.neutral(value)"
+            :label="`${value}`"
+          />
+        </tr>
+        <tr>
+          <th>Cool grey</th>
+          <ColorCell
+            v-for="value in [5, 10, 20, 30, 40, 50, 60, 70, 80, 90, 95]"
+            :key="`Cool Grey ${value}`"
+            :color="greys.cool(value)"
+            :label="`${value}`"
+          />
+        </tr>
+        <tr>
+          <th>Warm grey</th>
+          <ColorCell
+            v-for="value in [5, 10, 20, 30, 40, 50, 60, 70, 80, 90, 95]"
+            :key="`Warm Grey ${value}`"
+            :color="greys.warm(value)"
             :label="`${value}`"
           />
         </tr>
@@ -34,7 +54,7 @@
             `"
           >{{ scale.name }}</th>
           <ColorCell
-            v-for="value in [10, 20, 30, 40, 50, 60, 70, 80, 90]"
+            v-for="value in [5, 10, 20, 30, 40, 50, 60, 70, 80, 90, 95]"
             :key="`${scale.name} ${value}`"
             :color="scale.scale(value)"
             :label="`${value}`"
@@ -93,7 +113,7 @@ window.chroma = chroma;
 export default {
   name: "Colors",
   computed: {
-    greyscale: () => color.greyscale,
+    greys: () => color.greyscales,
     colors: () => color.colors,
     scales: () => color.scales,
     zainScales: () => color.zainScales,

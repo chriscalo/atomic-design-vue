@@ -2,20 +2,65 @@ import chroma from "chroma-js";
 import Bezier from "bezier-js";
 
 const curve = Bezier.cubicFromPoints(
-  {x: 0, y: 0},
+  {x: 0, y: 0.25},
   {x: 50, y: 1},
-  {x: 100, y: 0},
+  {x: 100, y: 0.25},
   0.5
 );
 
-console.log(curve.get(0.5));
+const cubicChroma = maxChroma => value => curve.get(value / 100).y * maxChroma;
 
 const middlegrey = chroma.mix("white", "black", 0.5, "hcl");
+const coolgreyHue = chroma.temperature(10000).get("hcl.h");
+const warmgreyHue = chroma.temperature(3500).get("hcl.h");
+const coolgreyChroma = cubicChroma(5);
+const warmgreyChroma = cubicChroma(10);
 
-export const greyscale =
-  chroma.scale(["white", middlegrey, "black"])
-    .mode("hcl")
-    .domain([0, 100]);
+export const greyscales = {
+  
+  neutral: chroma.scale([
+    "white",
+    middlegrey,
+    "black"
+  ])
+  .mode("hcl")
+  .domain([0, 100]),
+  
+  // TODO: use bezier chroma
+  cool: chroma.scale([
+    chroma.hcl(coolgreyHue, coolgreyChroma(0), 100),
+    chroma.hcl(coolgreyHue, coolgreyChroma(10), 90),
+    chroma.hcl(coolgreyHue, coolgreyChroma(20), 80),
+    chroma.hcl(coolgreyHue, coolgreyChroma(30), 70),
+    chroma.hcl(coolgreyHue, coolgreyChroma(40), 60),
+    chroma.hcl(coolgreyHue, coolgreyChroma(50), 50),
+    chroma.hcl(coolgreyHue, coolgreyChroma(60), 40),
+    chroma.hcl(coolgreyHue, coolgreyChroma(70), 30),
+    chroma.hcl(coolgreyHue, coolgreyChroma(80), 20),
+    chroma.hcl(coolgreyHue, coolgreyChroma(90), 10),
+    chroma.hcl(coolgreyHue, coolgreyChroma(100), 0),
+  ])
+  .mode("hcl")
+  .domain([0, 100]),
+  
+  // TODO: use bezier chroma
+  warm: chroma.scale([
+    chroma.hcl(warmgreyHue, warmgreyChroma(0), 100),
+    chroma.hcl(warmgreyHue, warmgreyChroma(10), 90),
+    chroma.hcl(warmgreyHue, warmgreyChroma(20), 80),
+    chroma.hcl(warmgreyHue, warmgreyChroma(30), 70),
+    chroma.hcl(warmgreyHue, warmgreyChroma(40), 60),
+    chroma.hcl(warmgreyHue, warmgreyChroma(50), 50),
+    chroma.hcl(warmgreyHue, warmgreyChroma(60), 40),
+    chroma.hcl(warmgreyHue, warmgreyChroma(70), 30),
+    chroma.hcl(warmgreyHue, warmgreyChroma(80), 20),
+    chroma.hcl(warmgreyHue, warmgreyChroma(90), 10),
+    chroma.hcl(warmgreyHue, warmgreyChroma(100), 0),
+  ])
+  .mode("hcl")
+  .domain([0, 100]),
+};
+
 
 // See: https://uxdesign.cc/my-struggle-with-colors-part-ii-ed71bff6302a
 export const zainScales = [{
@@ -182,25 +227,26 @@ log(chroma.mix("white", "black").hex(), "Middle grey");
 export const scales = colors.map(color => {
   const h = color.color.get("hcl.h");
   const c = color.color.get("hcl.c");
+  const chromaValue = cubicChroma(c);
   
   const lighter1 = chroma.scale([
-    chroma.hcl(h, curve.get(0.0).y * c, 100),
-    chroma.hcl(h, curve.get(0.1).y * c, 90),
-    chroma.hcl(h, curve.get(0.2).y * c, 80),
-    chroma.hcl(h, curve.get(0.3).y * c, 70),
-    chroma.hcl(h, curve.get(0.4).y * c, 60),
-    chroma.hcl(h, curve.get(0.5).y * c, 50),
+    chroma.hcl(h, chromaValue(0), 100),
+    chroma.hcl(h, chromaValue(10), 90),
+    chroma.hcl(h, chromaValue(20), 80),
+    chroma.hcl(h, chromaValue(30), 70),
+    chroma.hcl(h, chromaValue(40), 60),
+    chroma.hcl(h, chromaValue(50), 50),
   ])
   .mode("hcl")
   .domain([0, 50]);
   
   const darker1 = chroma.scale([
-    chroma.hcl(h, curve.get(0.5).y * c, 50),
-    chroma.hcl(h, curve.get(0.6).y * c, 40),
-    chroma.hcl(h, curve.get(0.7).y * c, 30),
-    chroma.hcl(h, curve.get(0.8).y * c, 20),
-    chroma.hcl(h, curve.get(0.9).y * c, 10),
-    chroma.hcl(h, curve.get(1.0).y * c, 0),
+    chroma.hcl(h, chromaValue(50), 50),
+    chroma.hcl(h, chromaValue(60), 40),
+    chroma.hcl(h, chromaValue(70), 30),
+    chroma.hcl(h, chromaValue(80), 20),
+    chroma.hcl(h, chromaValue(90), 10),
+    chroma.hcl(h, chromaValue(100), 0),
   ])
   .mode("hcl")
   .domain([50, 100]);
