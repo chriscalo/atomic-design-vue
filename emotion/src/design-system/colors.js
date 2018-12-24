@@ -1,6 +1,138 @@
 import chroma from "chroma-js";
+import Bezier from "bezier-js";
 
-console.clear();
+const curve = Bezier.cubicFromPoints(
+  {x: 0, y: 0},
+  {x: 50, y: 1},
+  {x: 100, y: 0},
+  0.5
+);
+
+console.log(curve.get(0.5));
+
+const middlegrey = chroma.mix("white", "black", 0.5, "hcl");
+
+export const greyscale =
+  chroma.scale(["white", middlegrey, "black"])
+    .mode("hcl")
+    .domain([0, 100]);
+
+// See: https://uxdesign.cc/my-struggle-with-colors-part-ii-ed71bff6302a
+export const zainScales = [{
+  name: "Grey",
+  scale: chroma.scale([
+    "#e3e3e3",
+    "#c7c7c7",
+    "#acacac",
+    "#909090",
+    "#757575",
+    "#5d5d5d",
+    "#464646",
+    "#2e2e2e",
+    "#171717",
+  ]).domain([10, 90]),
+}, {
+  name: "Red",
+  scale: chroma.scale([
+    "#fed1d1",
+    "#f7aaaa",
+    "#f68181",
+    "#ef5656",
+    "#e22929",
+    "#c20f0f",
+    "#9e0505",
+    "#790404",
+    "#4f0303",
+  ]).domain([10, 90]),
+}, {
+  name: "Yellow",
+  scale: chroma.scale([
+    "#f6dc9a",
+    "#eaba43",
+    "#d59a04",
+    "#b68304",
+    "#986e03",
+    "#7d5a01",
+    "#644802",
+    "#4b3601",
+    "#2f2200",
+  ]).domain([10, 90]),
+}, {
+  name: "Green",
+  scale: chroma.scale([
+    "#beeca6",
+    "#8ad364",
+    "#5bbb28",
+    "#40a10e",
+    "#338707",
+    "#2a7006",
+    "#225905",
+    "#194204",
+    "#102902",
+  ]).domain([10, 90]),
+}, {
+  name: "Blue",
+  scale: chroma.scale([
+    "#bbe2fb",
+    "#7cc8f7",
+    "#4eace7",
+    "#2493d9",
+    "#0b7ac2",
+    "#0965a0",
+    "#075180",
+    "#053d60",
+    "#03273e",
+  ]).domain([10, 90]),
+}, {
+  name: "Purple",
+  scale: chroma.scale([
+    "#e7d7f7",
+    "#d1b3f2",
+    "#bd91eb",
+    "#ac6eed",
+    "#9752e0",
+    "#8138ce",
+    "#6927af",
+    "#52198c",
+    "#35115c",
+  ]).domain([10, 90]),
+}];
+
+function withChromaClipped(h, c, l) {
+  // console.log(`withChromaClipped(${
+  //   h.toFixed(2)
+  // }, ${
+  //   c.toFixed(2)
+  // }, ${
+  //   l.toFixed(2)
+  // })`);
+  const tolerance = 1;
+  const step = 0.1;
+  let color, distance;
+  do {
+    color = chroma.hcl(h, c, l);
+    // console.log(
+    //   `chroma.hcl(${
+    //     h.toFixed(2)
+    //   }, ${
+    //     c.toFixed(2)
+    //   }, ${
+    //     l.toFixed(2)
+    //   }) => chroma.hcl(${
+    //     color.get("hcl.h").toFixed(2)
+    //   }, ${
+    //     color.get("hcl.c").toFixed(2)
+    //   }, ${
+    //     color.get("hcl.l").toFixed(2)
+    //   })`
+    // );
+    c += -step; // decrement after color created so it's ready on next iteration
+    distance = Math.abs(l - color.get("hcl.l"));
+  }
+  while (distance > tolerance);
+  // console.log(`stopping at distance = ${distance.toFixed(2)}`);
+  return color;
+}
 
 const n = 12;
 const hues = {
@@ -30,9 +162,9 @@ const hues = {
   "Rose": 360,
 };
 
-const colors = Object.entries(hues).map(([name, h]) => ({
+export const colors = Object.entries(hues).map(([name, h]) => ({
   name,
-  color: chroma.hcl(h, 100, 50),
+  color: chroma.hcl(h, 75, 50),
 }));
 
 colors.forEach(color => {
@@ -45,72 +177,124 @@ colors.forEach(color => {
   log(color, `Bright ${name}`);
 });
 
+log(chroma.mix("white", "black").hex(), "Middle grey");
 
-const scales = colors.map(color => {
-  const middlegrey = chroma.mix("white", "black");
+export const scales = colors.map(color => {
+  const h = color.color.get("hcl.h");
+  const c = color.color.get("hcl.c");
+  
+  const lighter1 = chroma.scale([
+    chroma.hcl(h, curve.get(0.0).y * c, 100),
+    chroma.hcl(h, curve.get(0.1).y * c, 90),
+    chroma.hcl(h, curve.get(0.2).y * c, 80),
+    chroma.hcl(h, curve.get(0.3).y * c, 70),
+    chroma.hcl(h, curve.get(0.4).y * c, 60),
+    chroma.hcl(h, curve.get(0.5).y * c, 50),
+  ])
+  .mode("hcl")
+  .domain([0, 50]);
+  
+  const darker1 = chroma.scale([
+    chroma.hcl(h, curve.get(0.5).y * c, 50),
+    chroma.hcl(h, curve.get(0.6).y * c, 40),
+    chroma.hcl(h, curve.get(0.7).y * c, 30),
+    chroma.hcl(h, curve.get(0.8).y * c, 20),
+    chroma.hcl(h, curve.get(0.9).y * c, 10),
+    chroma.hcl(h, curve.get(1.0).y * c, 0),
+  ])
+  .mode("hcl")
+  .domain([50, 100]);
+  
+  const lighter2 = chroma.scale([
+    "white",
+    color.color,
+  ])
+  .mode("hcl")
+  .gamma(2)
+  .correctLightness()
+  .domain([0, 50]);
+  
+  const darker2 = chroma.scale([
+    color.color,
+    "black",
+  ])
+  .mode("hcl")
+  .gamma(2)
+  .correctLightness()
+  .domain([50, 100]);
+  
+  // ==========================================================================
+  //
+  // THESE ARE THE WINNING SCALES!!!
+  //
+  // ==========================================================================
+  const lighter = lighter1.correctLightness();
+  const darker = darker1.correctLightness();
+
   return ({
     name: color.name,
+    base: color.color.css(),
     
-    tint:
+    scale: value => {
+      return (value > 50) ? darker(value) : lighter(value);
+    },
+        
+    scale4:
       chroma
-        .scale([color.color, "white"])
+        .scale([
+          withChromaClipped(h, c, 100),
+          withChromaClipped(h, c, 90),
+          withChromaClipped(h, c, 80),
+          withChromaClipped(h, c, 70),
+          withChromaClipped(h, c, 60),
+          withChromaClipped(h, c, 50),
+          withChromaClipped(h, c, 40),
+          withChromaClipped(h, c, 30),
+          withChromaClipped(h, c, 20),
+          withChromaClipped(h, c, 10),
+          withChromaClipped(h, c, 0),
+        ])
         .mode("hcl")
         .domain([0, 100]),
-      
-    shade:
-      chroma
-        .scale([color.color, "black"])
-        .mode("hcl")
-        .domain([0, 100]),
     
-    tone:
+    scale1:
       chroma
-        .scale([color.color, middlegrey])
+        .scale([
+          chroma.hcl(h, c, 100),
+          chroma.hcl(h, c, 90),
+          chroma.hcl(h, c, 80),
+          chroma.hcl(h, c, 70),
+          chroma.hcl(h, c, 60),
+          chroma.hcl(h, c, 50),
+          chroma.hcl(h, c, 40),
+          chroma.hcl(h, c, 30),
+          chroma.hcl(h, c, 20),
+          chroma.hcl(h, c, 10),
+          chroma.hcl(h, c, 0),
+        ])
         .mode("hcl")
+        .correctLightness()
+        .domain([0, 100]),
+        
+    scale3:
+      chroma
+        .scale([
+          color.color.set("hcl.l", 100),
+          color.color.set("hcl.l", 90),
+          color.color.set("hcl.l", 80),
+          color.color.set("hcl.l", 70),
+          color.color.set("hcl.l", 60),
+          color.color.set("hcl.l", 50),
+          color.color.set("hcl.l", 40),
+          color.color.set("hcl.l", 30),
+          color.color.set("hcl.l", 20),
+          color.color.set("hcl.l", 10),
+          color.color.set("hcl.l", 0),
+        ])
+        .mode("hcl")
+        // .gamma(1.5)
         .domain([0, 100]),
   });
-});
-
-scales.forEach(scale => {
-  log(scale.tint(0), `${scale.name} Tint 0`);
-  log(scale.tint(10), `${scale.name} Tint 10`);
-  log(scale.tint(20), `${scale.name} Tint 20`);
-  log(scale.tint(30), `${scale.name} Tint 30`);
-  log(scale.tint(40), `${scale.name} Tint 40`);
-  log(scale.tint(50), `${scale.name} Tint 50`);
-  log(scale.tint(60), `${scale.name} Tint 60`);
-  log(scale.tint(70), `${scale.name} Tint 70`);
-  log(scale.tint(80), `${scale.name} Tint 80`);
-  log(scale.tint(90), `${scale.name} Tint 90`);
-  log(scale.tint(100), `${scale.name} Tint 100`);
-});
-
-scales.forEach(scale => {
-  log(scale.shade(0), `${scale.name} Shade 0`);
-  log(scale.shade(10), `${scale.name} Shade 10`);
-  log(scale.shade(20), `${scale.name} Shade 20`);
-  log(scale.shade(30), `${scale.name} Shade 30`);
-  log(scale.shade(40), `${scale.name} Shade 40`);
-  log(scale.shade(50), `${scale.name} Shade 50`);
-  log(scale.shade(60), `${scale.name} Shade 60`);
-  log(scale.shade(70), `${scale.name} Shade 70`);
-  log(scale.shade(80), `${scale.name} Shade 80`);
-  log(scale.shade(90), `${scale.name} Shade 90`);
-  log(scale.shade(100), `${scale.name} Shade 100`);
-});
-
-scales.forEach(scale => {
-  log(scale.tone(0), `${scale.name} Tone 0`);
-  log(scale.tone(10), `${scale.name} Tone 10`);
-  log(scale.tone(20), `${scale.name} Tone 20`);
-  log(scale.tone(30), `${scale.name} Tone 30`);
-  log(scale.tone(40), `${scale.name} Tone 40`);
-  log(scale.tone(50), `${scale.name} Tone 50`);
-  log(scale.tone(60), `${scale.name} Tone 60`);
-  log(scale.tone(70), `${scale.name} Tone 70`);
-  log(scale.tone(80), `${scale.name} Tone 80`);
-  log(scale.tone(90), `${scale.name} Tone 90`);
-  log(scale.tone(100), `${scale.name} Tone 100`);
 });
 
 function log(color, msg) {
@@ -122,11 +306,13 @@ function log(color, msg) {
     `
       background: ${color};
       color: ${text};
-      padding: 4px;
+      padding: 8px;
       border-radius: 4px;
     `
   );
 }
+
+window.logColor = log;
 
 /*============================================================================*\
   COLORS

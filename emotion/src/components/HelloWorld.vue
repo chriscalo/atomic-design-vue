@@ -59,8 +59,8 @@ export default {
         ${ margin.y("20px") };
         
         transform:
-          rotateY(${ lerp(20, -20, this.x) }deg)
-          rotateX(${ lerp(20, -20, this.y) }deg);
+          rotateY(${ lerp(-20, 20, this.x) }deg)
+          rotateX(${ lerp(-20, 20, this.y) }deg);
         
         box-shadow:
           ${ shadow("10px", "cyan", 0.5) },
