@@ -19,7 +19,13 @@
       </thead>
       <tbody>
         <tr>
-          <th>Neutral grey</th>
+          <th
+            :style="`
+              padding: 8px;
+              background: ${ greys.neutral(50) };
+              color: ${ textColor(greys.neutral(50)) };
+            `"
+          >Neutral grey</th>
           <ColorCell
             v-for="value in [5, 10, 20, 30, 40, 50, 60, 70, 80, 90, 95]"
             :key="`Neutral Grey ${value}`"
@@ -28,7 +34,13 @@
           />
         </tr>
         <tr>
-          <th>Cool grey</th>
+          <th
+            :style="`
+              padding: 8px;
+              background: ${ greys.cool(50) };
+              color: ${ textColor(greys.cool(50)) };
+            `"
+          >Cool grey</th>
           <ColorCell
             v-for="value in [5, 10, 20, 30, 40, 50, 60, 70, 80, 90, 95]"
             :key="`Cool Grey ${value}`"
@@ -37,7 +49,13 @@
           />
         </tr>
         <tr>
-          <th>Warm grey</th>
+          <th
+            :style="`
+              padding: 8px;
+              background: ${ greys.warm(50) };
+              color: ${ textColor(greys.warm(50)) };
+            `"
+          >Warm grey</th>
           <ColorCell
             v-for="value in [5, 10, 20, 30, 40, 50, 60, 70, 80, 90, 95]"
             :key="`Warm Grey ${value}`"
