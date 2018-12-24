@@ -4,6 +4,15 @@ import Bezier from "bezier-js";
 // used to retain saturation as colors get closer to white or black
 const createChromaScale = maxChroma => {
   const minChroma = 0.25 * maxChroma;
+  // Creates a function kinda like this:
+  //     |
+  // max |           o
+  //     |     x            x
+  //     |  x                 x
+  // min | o                   o
+  //     |
+  //     ------------------------
+  //       0        50        100
   const curve = Bezier.cubicFromPoints(
     {x: 0, y: minChroma}, // min value at 0
     {x: 50, y: maxChroma}, // max value at 50
