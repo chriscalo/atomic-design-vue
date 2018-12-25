@@ -21,59 +21,131 @@ const createChromaScale = maxChroma => {
   return value => curve.get(value / 100).y;
 };
 
-const middlegrey = chroma.mix("white", "black", 0.5, "hcl");
+const middleGrey = chroma.mix("white", "black", 0.5, "hcl");
 const coolGreyHue = chroma.temperature(10000).get("hcl.h");
 const warmGreyHue = chroma.temperature(5000).get("hcl.h");
 const coolGreyChromaScale = createChromaScale(5);
 const warmGreyChromaScale = createChromaScale(10);
 
+export const neutralGrey = chroma.scale([
+  "white",
+  middleGrey,
+  "black"
+])
+.mode("hcl")
+.correctLightness()
+.domain([0, 100])
+.nodata(middleGrey);
+
+export const coolGrey = chroma.scale([
+  chroma.hcl(coolGreyHue, coolGreyChromaScale(0), 100),
+  chroma.hcl(coolGreyHue, coolGreyChromaScale(10), 90),
+  chroma.hcl(coolGreyHue, coolGreyChromaScale(20), 80),
+  chroma.hcl(coolGreyHue, coolGreyChromaScale(30), 70),
+  chroma.hcl(coolGreyHue, coolGreyChromaScale(40), 60),
+  chroma.hcl(coolGreyHue, coolGreyChromaScale(50), 50),
+  chroma.hcl(coolGreyHue, coolGreyChromaScale(60), 40),
+  chroma.hcl(coolGreyHue, coolGreyChromaScale(70), 30),
+  chroma.hcl(coolGreyHue, coolGreyChromaScale(80), 20),
+  chroma.hcl(coolGreyHue, coolGreyChromaScale(90), 10),
+  chroma.hcl(coolGreyHue, coolGreyChromaScale(100), 0),
+])
+.mode("hcl")
+.correctLightness()
+.domain([0, 100])
+.nodata(chroma.hcl(coolGreyHue, coolGreyChromaScale(50), 50));
+
+export const warmGrey = chroma.scale([
+  chroma.hcl(warmGreyHue, warmGreyChromaScale(0), 100),
+  chroma.hcl(warmGreyHue, warmGreyChromaScale(10), 90),
+  chroma.hcl(warmGreyHue, warmGreyChromaScale(20), 80),
+  chroma.hcl(warmGreyHue, warmGreyChromaScale(30), 70),
+  chroma.hcl(warmGreyHue, warmGreyChromaScale(40), 60),
+  chroma.hcl(warmGreyHue, warmGreyChromaScale(50), 50),
+  chroma.hcl(warmGreyHue, warmGreyChromaScale(60), 40),
+  chroma.hcl(warmGreyHue, warmGreyChromaScale(70), 30),
+  chroma.hcl(warmGreyHue, warmGreyChromaScale(80), 20),
+  chroma.hcl(warmGreyHue, warmGreyChromaScale(90), 10),
+  chroma.hcl(warmGreyHue, warmGreyChromaScale(100), 0),
+])
+.mode("hcl")
+.correctLightness()
+.domain([0, 100])
+.nodata(chroma.hcl(warmGreyHue, warmGreyChromaScale(50), 50));
+
 export const greyscales = {
-  
-  neutral: chroma.scale([
-    "white",
-    middlegrey,
-    "black"
-  ])
-  .mode("hcl")
-  .correctLightness()
-  .domain([0, 100]),
-  
-  cool: chroma.scale([
-    chroma.hcl(coolGreyHue, coolGreyChromaScale(0), 100),
-    chroma.hcl(coolGreyHue, coolGreyChromaScale(10), 90),
-    chroma.hcl(coolGreyHue, coolGreyChromaScale(20), 80),
-    chroma.hcl(coolGreyHue, coolGreyChromaScale(30), 70),
-    chroma.hcl(coolGreyHue, coolGreyChromaScale(40), 60),
-    chroma.hcl(coolGreyHue, coolGreyChromaScale(50), 50),
-    chroma.hcl(coolGreyHue, coolGreyChromaScale(60), 40),
-    chroma.hcl(coolGreyHue, coolGreyChromaScale(70), 30),
-    chroma.hcl(coolGreyHue, coolGreyChromaScale(80), 20),
-    chroma.hcl(coolGreyHue, coolGreyChromaScale(90), 10),
-    chroma.hcl(coolGreyHue, coolGreyChromaScale(100), 0),
-  ])
-  .mode("hcl")
-  .correctLightness()
-  .domain([0, 100]),
-  
-  warm: chroma.scale([
-    chroma.hcl(warmGreyHue, warmGreyChromaScale(0), 100),
-    chroma.hcl(warmGreyHue, warmGreyChromaScale(10), 90),
-    chroma.hcl(warmGreyHue, warmGreyChromaScale(20), 80),
-    chroma.hcl(warmGreyHue, warmGreyChromaScale(30), 70),
-    chroma.hcl(warmGreyHue, warmGreyChromaScale(40), 60),
-    chroma.hcl(warmGreyHue, warmGreyChromaScale(50), 50),
-    chroma.hcl(warmGreyHue, warmGreyChromaScale(60), 40),
-    chroma.hcl(warmGreyHue, warmGreyChromaScale(70), 30),
-    chroma.hcl(warmGreyHue, warmGreyChromaScale(80), 20),
-    chroma.hcl(warmGreyHue, warmGreyChromaScale(90), 10),
-    chroma.hcl(warmGreyHue, warmGreyChromaScale(100), 0),
-  ])
-  .mode("hcl")
-  .correctLightness()
-  .domain([0, 100]),
+  neutral: neutralGrey,
+  cool: coolGrey,
+  warm: warmGrey,
 };
 
-const n = 12;
+const createScale = (hue, maxChroma) => {
+  const baseColor = chroma.hcl(hue, maxChroma, 50);
+  const chromaScale = createChromaScale(maxChroma);
+  
+  const lighter = chroma.scale([
+    chroma.hcl(hue, chromaScale(0), 100),
+    chroma.hcl(hue, chromaScale(10), 90),
+    chroma.hcl(hue, chromaScale(20), 80),
+    chroma.hcl(hue, chromaScale(30), 70),
+    chroma.hcl(hue, chromaScale(40), 60),
+    chroma.hcl(hue, chromaScale(50), 50),
+  ])
+  .mode("hcl")
+  .correctLightness()
+  .domain([0, 50]);
+  
+  const darker = chroma.scale([
+    chroma.hcl(hue, chromaScale(50), 50),
+    chroma.hcl(hue, chromaScale(60), 40),
+    chroma.hcl(hue, chromaScale(70), 30),
+    chroma.hcl(hue, chromaScale(80), 20),
+    chroma.hcl(hue, chromaScale(90), 10),
+    chroma.hcl(hue, chromaScale(100), 0),
+  ])
+  .mode("hcl")
+  .correctLightness()
+  .domain([50, 100]);
+  
+  return (
+    value => {
+      if (typeof value === "undefined") {
+        return baseColor;
+      } else if (value > 50) {
+        return darker(value);
+      } else {
+        return lighter(value);
+      }
+    }
+  );
+};
+
+export const unnamed15Scale = createScale(15, 75);
+export const redScale = createScale(30, 75);
+export const burntOrangeScale = createScale(45, 75);
+export const orangeScale = createScale(60, 75);
+export const brownScale = createScale(75, 75);
+export const tanScale = createScale(90, 75);
+export const oliveScale = createScale(105, 75);
+// export const unnamed120Scale = createScale(120, 75);
+// export const unnamed135Scale = createScale(135, 75);
+export const greenScale = createScale(150, 75);
+// export const unnamed165Scale = createScale(165, 75);
+export const seaGreenScale = createScale(180, 75);
+export const tealScale = createScale(195, 75);
+export const aquaScale = createScale(210, 75);
+// export const unnamed225Scale = createScale(225, 75);
+export const skyBlueScale = createScale(240, 75); // cerulean? azure?
+// export const unnamed255Scale = createScale(255, 75);
+// export const unnamed270Scale = createScale(270, 75);
+export const blueScale = createScale(285, 75);
+export const indigoScale = createScale(300, 75);
+export const purpleScale = createScale(315, 75);
+export const magentaScale = createScale(330, 75);
+export const pinkScale = createScale(345, 75);
+export const roseScale = createScale(360, 75); // fuscia?
+
+
 const hues = {
   "Unnamed 15": 15,
   "Red": 30,
@@ -81,7 +153,7 @@ const hues = {
   "Orange": 60,
   "Brown": 75,
   "Tan": 90,
-  "Unnamed 105": 105,
+  "Olive": 105,
   // "Unnamed 120": 120,
   // "Unnamed 135": 135,
   "Green": 150,
@@ -90,7 +162,7 @@ const hues = {
   "Teal": 195,
   "Aqua": 210,
   // "Unnamed 225": 225,
-  "Sky blue": 240,
+  "Sky blue": 240, // cerulean? azure?
   // "Unnamed 255": 255,
   // "Unnamed 270": 270,
   "Blue": 285,
@@ -98,8 +170,10 @@ const hues = {
   "Purple": 315,
   "Magenta": 330,
   "Pink": 345,
-  "Rose": 360,
+  "Rose": 360, // fuscia?
 };
+
+
 
 const colors = Object.entries(hues).map(([name, h]) => ({
   name,

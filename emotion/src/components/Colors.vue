@@ -63,6 +63,41 @@
             :label="`${value}`"
           />
         </tr>
+        <tr
+          v-for="name in [
+            'redScale',
+            'burntOrangeScale',
+            'orangeScale',
+            'brownScale',
+            'tanScale',
+            'oliveScale',
+            'greenScale',
+            'seaGreenScale',
+            'tealScale',
+            'aquaScale',
+            'skyBlueScale',
+            'blueScale',
+            'indigoScale',
+            'purpleScale',
+            'magentaScale',
+            'pinkScale',
+            'roseScale',
+          ]"
+        >
+          <th
+            :style="`
+              padding: 8px;
+              background: ${ color[name]() };
+              color: ${ textColor(color[name](50)) };
+            `"
+          >{{ name }}</th>
+          <ColorCell
+            v-for="value in [5, 10, 20, 30, 40, 50, 60, 70, 80, 90, 95]"
+            :key="`${name} ${value}`"
+            :color="color[name](value)"
+            :label="`${value}`"
+          />
+        </tr>
         <tr v-for="scale in scales" :key="scale.name">
           <th
             :style="`
@@ -100,6 +135,7 @@ window.chroma = chroma;
 export default {
   name: "Colors",
   computed: {
+    color: () => color,
     greys: () => color.greyscales,
     scales: () => color.scales,
     chroma: () => chroma,
