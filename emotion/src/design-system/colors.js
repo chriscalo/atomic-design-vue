@@ -79,29 +79,31 @@ export const greyscales = {
   warm: warmGrey,
 };
 
-const createScale = (hue, maxChroma) => {
-  const baseColor = chroma.hcl(hue, maxChroma, 50);
-  const chromaScale = createChromaScale(maxChroma);
+const createScale = (hue, chr) => {
+  const baseColor = chroma.hcl(hue, chr, 50);
+  const h = baseColor.get("hcl.h");
+  const c = baseColor.get("hcl.c");
+  const chromaScale = createChromaScale(c);
   
   const lighter = chroma.scale([
-    chroma.hcl(hue, chromaScale(0), 100),
-    chroma.hcl(hue, chromaScale(10), 90),
-    chroma.hcl(hue, chromaScale(20), 80),
-    chroma.hcl(hue, chromaScale(30), 70),
-    chroma.hcl(hue, chromaScale(40), 60),
-    chroma.hcl(hue, chromaScale(50), 50),
+    chroma.hcl(h, chromaScale(0), 100),
+    chroma.hcl(h, chromaScale(10), 90),
+    chroma.hcl(h, chromaScale(20), 80),
+    chroma.hcl(h, chromaScale(30), 70),
+    chroma.hcl(h, chromaScale(40), 60),
+    chroma.hcl(h, chromaScale(50), 50),
   ])
   .mode("hcl")
   .correctLightness()
   .domain([0, 50]);
   
   const darker = chroma.scale([
-    chroma.hcl(hue, chromaScale(50), 50),
-    chroma.hcl(hue, chromaScale(60), 40),
-    chroma.hcl(hue, chromaScale(70), 30),
-    chroma.hcl(hue, chromaScale(80), 20),
-    chroma.hcl(hue, chromaScale(90), 10),
-    chroma.hcl(hue, chromaScale(100), 0),
+    chroma.hcl(h, chromaScale(50), 50),
+    chroma.hcl(h, chromaScale(60), 40),
+    chroma.hcl(h, chromaScale(70), 30),
+    chroma.hcl(h, chromaScale(80), 20),
+    chroma.hcl(h, chromaScale(90), 10),
+    chroma.hcl(h, chromaScale(100), 0),
   ])
   .mode("hcl")
   .correctLightness()
