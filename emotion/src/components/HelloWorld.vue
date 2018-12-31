@@ -53,7 +53,7 @@ export default {
     color: () => color,
     styles() {
       return css`
-        border: solid 10px ${color.teal(30).css()};
+        border: solid 10px ${color.teal(30)};
         font-family: ${FontStack.mono};
         font-size: ${TextSize.xl};
         ${ rounded("20px") };
@@ -65,8 +65,8 @@ export default {
           rotateX(${ lerp(20, -20, this.y) }deg);
         
         box-shadow:
-          ${ shadow.inset("10px", color.magenta(50).css(), 0.5) },
-          ${ elevation(24, color.skyBlue(50).css()) };
+          ${ shadow.inset("10px", color.magenta(50), 0.5) },
+          ${ elevation(24, color.skyBlue(50)) };
         
         &:hover {
           color: ${ this.hoverColor };

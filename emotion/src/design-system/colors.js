@@ -24,8 +24,10 @@ const createChromaScale = maxChroma => {
 const middleGrey = chroma.mix("white", "black", 0.5, "hcl");
 const coolGreyHue = chroma.temperature(10000).get("hcl.h");
 const warmGreyHue = chroma.temperature(5000).get("hcl.h");
-const coolGreyChromaScale = createChromaScale(5);
-const warmGreyChromaScale = createChromaScale(10);
+const coolGreyChromaScale = createChromaScale(6);
+const warmGreyChromaScale = createChromaScale(12);
+
+// TODO: create grey scales the same way as regular color scales
 
 export const neutralGrey = chroma.scale([
   "white",
@@ -79,19 +81,12 @@ const createScale = (hue, chr, name) => {
   const c = baseColor.get("hcl.c");
   const chromaScale = createChromaScale(c);
   
-  const lighter = chroma.scale([
+  const scale = chroma.scale([
     chroma.hcl(h, chromaScale(0), 100),
     chroma.hcl(h, chromaScale(10), 90),
     chroma.hcl(h, chromaScale(20), 80),
     chroma.hcl(h, chromaScale(30), 70),
     chroma.hcl(h, chromaScale(40), 60),
-    chroma.hcl(h, chromaScale(50), 50),
-  ])
-  .mode("hcl")
-  .correctLightness()
-  .domain([0, 50]);
-  
-  const darker = chroma.scale([
     chroma.hcl(h, chromaScale(50), 50),
     chroma.hcl(h, chromaScale(60), 40),
     chroma.hcl(h, chromaScale(70), 30),
@@ -101,16 +96,10 @@ const createScale = (hue, chr, name) => {
   ])
   .mode("hcl")
   .correctLightness()
-  .domain([50, 100]);
+  .domain([0, 100]);
   
-  const fn = value => {
-    if (typeof value === "undefined") {
-      return baseColor;
-    } else if (value > 50) {
-      return darker(value);
-    } else {
-      return lighter(value);
-    }
+  const fn = (value = 50) => {
+    return scale(value).css();
   };
   
   fn.colorName = name;
@@ -118,109 +107,36 @@ const createScale = (hue, chr, name) => {
   return fn;
 };
 
-export const unnamed15 = createScale(15, 75, "Unnamed 15");
-export const red = createScale(30, 75, "Red");
-export const burntOrange = createScale(45, 75, "Burnt Orange");
-export const orange = createScale(60, 75, "Orange");
-export const brown = createScale(75, 75, "Brown");
-export const tan = createScale(90, 75, "Tan");
-export const olive = createScale(105, 75, "Olive");
-// export const unnamed120 = createScale(120, 75, "Unnamed 120");
-// export const unnamed135 = createScale(135, 75, "Unnamed 135");
-export const green = createScale(150, 75, "Green");
-// export const unnamed165 = createScale(165, 75, "Unnamed 165");
-export const seaGreen = createScale(180, 75, "Sea Green");
-export const teal = createScale(195, 75, "Teal");
-export const aqua = createScale(210, 75, "Aqua");
-// export const unnamed225 = createScale(225, 75, "Unnamed 225");
-export const skyBlue = createScale(240, 75, "Sky Blue"); // cerulean? azure?
-// export const unnamed255 = createScale(255, 75, "Unnamed 255");
-// export const unnamed270 = createScale(270, 75, "Unnamed 270");
-export const blue = createScale(285, 75, "Blue");
-export const indigo = createScale(300, 75, "Indigo");
-export const purple = createScale(315, 75, "Purple");
-export const magenta = createScale(330, 75, "Magenta");
-export const pink = createScale(345, 75, "Pink");
-export const rose = createScale(360, 75, "Rose"); // fuscia?
+export const hue15 = createScale(15, 80, "Hue 15");
+export const red = createScale(35, 85, "Red");
+export const burntOrange = createScale(45, 80, "Burnt Orange");
+export const orange = createScale(60, 80, "Orange");
+export const brown = createScale(75, 80, "Brown");
+export const tan = createScale(90, 80, "Tan");
+export const olive = createScale(105, 80, "Olive");
+export const hue120 = createScale(120, 80, "Hue 120");
+export const hue135 = createScale(135, 80, "Hue 135");
+export const green = createScale(150, 80, "Green");
+export const hue165 = createScale(165, 80, "Hue 165");
+export const seaGreen = createScale(180, 80, "Sea Green");
+export const teal = createScale(195, 80, "Teal");
+export const aqua = createScale(210, 80, "Aqua");
+export const hue225 = createScale(225, 80, "Hue 225");
+export const skyBlue = createScale(240, 80, "Sky Blue"); // cerulean? azure?
+export const hue255 = createScale(255, 80, "Hue 255");
+export const hue270 = createScale(270, 80, "Hue 270");
+export const blue = createScale(285, 80, "Blue");
+export const indigo = createScale(300, 80, "Indigo");
+export const purple = createScale(315, 80, "Purple");
+export const magenta = createScale(330, 80, "Magenta");
+export const pink = createScale(345, 80, "Pink");
+export const rose = createScale(360, 80, "Rose"); // fuscia?
 
-
-const hues = {
-  "Unnamed 15": 15,
-  "Red": 30,
-  "Burnt orange": 45,
-  "Orange": 60,
-  "Brown": 75,
-  "Tan": 90,
-  "Olive": 105,
-  // "Unnamed 120": 120,
-  // "Unnamed 135": 135,
-  "Green": 150,
-  // "Unnamed 165": 165,
-  "Sea green": 180,
-  "Teal": 195,
-  "Aqua": 210,
-  // "Unnamed 225": 225,
-  "Sky blue": 240, // cerulean? azure?
-  // "Unnamed 255": 255,
-  // "Unnamed 270": 270,
-  "Blue": 285,
-  "Indigo": 300,
-  "Purple": 315,
-  "Magenta": 330,
-  "Pink": 345,
-  "Rose": 360, // fuscia?
-};
-
-
-
-const colors = Object.entries(hues).map(([name, h]) => ({
-  name,
-  color: chroma.hcl(h, 75, 50),
-}));
-
-export const scales = colors.map(color => {
-  const h = color.color.get("hcl.h");
-  const c = color.color.get("hcl.c");
-  const chromaScale = createChromaScale(c);
-  
-  const lighter = chroma.scale([
-    chroma.hcl(h, chromaScale(0), 100),
-    chroma.hcl(h, chromaScale(10), 90),
-    chroma.hcl(h, chromaScale(20), 80),
-    chroma.hcl(h, chromaScale(30), 70),
-    chroma.hcl(h, chromaScale(40), 60),
-    chroma.hcl(h, chromaScale(50), 50),
-  ])
-  .mode("hcl")
-  .correctLightness()
-  .domain([0, 50]);
-  
-  const darker = chroma.scale([
-    chroma.hcl(h, chromaScale(50), 50),
-    chroma.hcl(h, chromaScale(60), 40),
-    chroma.hcl(h, chromaScale(70), 30),
-    chroma.hcl(h, chromaScale(80), 20),
-    chroma.hcl(h, chromaScale(90), 10),
-    chroma.hcl(h, chromaScale(100), 0),
-  ])
-  .mode("hcl")
-  .correctLightness()
-  .domain([50, 100]);
-  
-  return ({
-    name: color.name,
-    base: color.color.css(),
-    scale: value => {
-      return (value > 50) ? darker(value) : lighter(value);
-    },
-  });
-});
 
 // given a background color, returns a text color, either white or black
 export const textForBg = bgColor => {
-  const LUMINANCE_THRESHOLD = 0.45;
-  bgColor = chroma(bgColor);
-  return bgColor.luminance() <= LUMINANCE_THRESHOLD ? "white" : "black";
+  const LUMINANCE_THRESHOLD = 0.35;
+  return chroma(bgColor).luminance() <= LUMINANCE_THRESHOLD ? "white" : "black";
 };
 
 /*============================================================================*\
@@ -229,5 +145,5 @@ export const textForBg = bgColor => {
 
 export const none = "transparent";
 
-export const black = "#22292f";
-export const white = "#ffffff";
+export const black = "black";
+export const white = "white";

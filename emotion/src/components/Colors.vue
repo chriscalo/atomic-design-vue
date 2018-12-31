@@ -30,7 +30,7 @@
             v-for="value in [5, 10, 20, 30, 40, 50, 60, 70, 80, 90, 95]"
             :key="`Neutral Grey ${value}`"
             :color="color.neutralGrey(value)"
-            :label="`${value}`"
+            :label="`Neutral Grey ${value}`"
           />
         </tr>
         <tr>
@@ -45,7 +45,7 @@
             v-for="value in [5, 10, 20, 30, 40, 50, 60, 70, 80, 90, 95]"
             :key="`Cool Grey ${value}`"
             :color="color.coolGrey(value)"
-            :label="`${value}`"
+            :label="`Cool grey ${value}`"
           />
         </tr>
         <tr>
@@ -60,22 +60,29 @@
             v-for="value in [5, 10, 20, 30, 40, 50, 60, 70, 80, 90, 95]"
             :key="`Warm Grey ${value}`"
             :color="color.warmGrey(value)"
-            :label="`${value}`"
+            :label="`Warm grey ${value}`"
           />
         </tr>
         <tr
           v-for="name in [
+            'hue15',
             'red',
             'burntOrange',
             'orange',
             'brown',
             'tan',
             'olive',
+            'hue120',
+            'hue135',
             'green',
+            'hue165',
             'seaGreen',
             'teal',
             'aqua',
+            'hue225',
             'skyBlue',
+            'hue255',
+            'hue270',
             'blue',
             'indigo',
             'purple',
@@ -95,7 +102,7 @@
             v-for="value in [5, 10, 20, 30, 40, 50, 60, 70, 80, 90, 95]"
             :key="`${name} ${value}`"
             :color="color[name](value)"
-            :label="`${value}`"
+            :label="`${color[name].colorName} ${value}`"
           />
         </tr>
       </tbody>
