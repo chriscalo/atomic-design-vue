@@ -37,7 +37,7 @@
 import { css } from "emotion";
 import * as color from "../design-system/colors";
 import { rounded } from "../design-system/borders";
-import { shadow } from "../design-system/shadows";
+import { shadow, elevation } from "../design-system/shadows";
 import { margin } from "../design-system/size-spacing";
 import { FontStack, font, TextSize } from "../design-system/typography";
 import lerp from "lerp";
@@ -65,8 +65,8 @@ export default {
           rotateX(${ lerp(20, -20, this.y) }deg);
         
         box-shadow:
-          ${ shadow("10px", color.skyBlue(50).css(), 0.5) },
-          ${ shadow.inset("10px", color.magenta(50).css(), 0.5) };
+          ${ shadow.inset("10px", color.magenta(50).css(), 0.5) },
+          ${ elevation(24, color.skyBlue(50).css()) };
         
         &:hover {
           color: ${ this.hoverColor };
