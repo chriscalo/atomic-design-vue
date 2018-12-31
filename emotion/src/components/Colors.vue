@@ -22,14 +22,14 @@
           <th
             :style="`
               padding: 8px;
-              background: ${ greys.neutral(50) };
-              color: ${ textColor(greys.neutral(50)) };
+              background: ${ color.neutralGrey(50) };
+              color: ${ textColor(color.neutralGrey(50)) };
             `"
           >Neutral grey</th>
           <ColorCell
             v-for="value in [5, 10, 20, 30, 40, 50, 60, 70, 80, 90, 95]"
             :key="`Neutral Grey ${value}`"
-            :color="greys.neutral(value)"
+            :color="color.neutralGrey(value)"
             :label="`${value}`"
           />
         </tr>
@@ -37,14 +37,14 @@
           <th
             :style="`
               padding: 8px;
-              background: ${ greys.cool(50) };
-              color: ${ textColor(greys.cool(50)) };
+              background: ${ color.coolGrey(50) };
+              color: ${ textColor(color.coolGrey(50)) };
             `"
           >Cool grey</th>
           <ColorCell
             v-for="value in [5, 10, 20, 30, 40, 50, 60, 70, 80, 90, 95]"
             :key="`Cool Grey ${value}`"
-            :color="greys.cool(value)"
+            :color="color.coolGrey(value)"
             :label="`${value}`"
           />
         </tr>
@@ -52,36 +52,36 @@
           <th
             :style="`
               padding: 8px;
-              background: ${ greys.warm(50) };
-              color: ${ textColor(greys.warm(50)) };
+              background: ${ color.warmGrey(50) };
+              color: ${ textColor(color.warmGrey(50)) };
             `"
           >Warm grey</th>
           <ColorCell
             v-for="value in [5, 10, 20, 30, 40, 50, 60, 70, 80, 90, 95]"
             :key="`Warm Grey ${value}`"
-            :color="greys.warm(value)"
+            :color="color.warmGrey(value)"
             :label="`${value}`"
           />
         </tr>
         <tr
           v-for="name in [
-            'redScale',
-            'burntOrangeScale',
-            'orangeScale',
-            'brownScale',
-            'tanScale',
-            'oliveScale',
-            'greenScale',
-            'seaGreenScale',
-            'tealScale',
-            'aquaScale',
-            'skyBlueScale',
-            'blueScale',
-            'indigoScale',
-            'purpleScale',
-            'magentaScale',
-            'pinkScale',
-            'roseScale',
+            'red',
+            'burntOrange',
+            'orange',
+            'brown',
+            'tan',
+            'olive',
+            'green',
+            'seaGreen',
+            'teal',
+            'aqua',
+            'skyBlue',
+            'blue',
+            'indigo',
+            'purple',
+            'magenta',
+            'pink',
+            'rose',
           ]"
         >
           <th
@@ -90,26 +90,11 @@
               background: ${ color[name]() };
               color: ${ textColor(color[name](50)) };
             `"
-          >{{ name }}</th>
+          >{{ color[name].colorName }}</th>
           <ColorCell
             v-for="value in [5, 10, 20, 30, 40, 50, 60, 70, 80, 90, 95]"
             :key="`${name} ${value}`"
             :color="color[name](value)"
-            :label="`${value}`"
-          />
-        </tr>
-        <tr v-for="scale in scales" :key="scale.name">
-          <th
-            :style="`
-              padding: 8px;
-              background: ${ scale.base };
-              color: ${ textColor(scale.base) };
-            `"
-          >{{ scale.name }}</th>
-          <ColorCell
-            v-for="value in [5, 10, 20, 30, 40, 50, 60, 70, 80, 90, 95]"
-            :key="`${scale.name} ${value}`"
-            :color="scale.scale(value)"
             :label="`${value}`"
           />
         </tr>
@@ -136,8 +121,6 @@ export default {
   name: "Colors",
   computed: {
     color: () => color,
-    greys: () => color.greyscales,
-    scales: () => color.scales,
     chroma: () => chroma,
     styles() {
       return css`

@@ -26,10 +26,10 @@
       <li><a href="https://vue-loader.vuejs.org" target="_blank" rel="noopener">vue-loader</a></li>
       <li><a href="https://github.com/vuejs/awesome-vue" target="_blank" rel="noopener">awesome-vue</a></li>
     </ul>
-    <button @click="color = 'red'">red</button>
-    <button @click="color = 'green'">green</button>
-    <button @click="color = 'blue'">blue</button>
-    <input type="text" v-model="color"/>
+    <button @click="hoverColor = 'red'">red</button>
+    <button @click="hoverColor = 'green'">green</button>
+    <button @click="hoverColor = 'blue'">blue</button>
+    <input type="text" v-model="hoverColor"/>
   </div>
 </template>
 
@@ -45,29 +45,31 @@ import lerp from "lerp";
 export default {
   name: 'HelloWorld',
   data: () => ({
-    color: 'red',
+    hoverColor: "red",
     x: 0.5,
     y: 0.5,
   }),
   computed: {
+    color: () => color,
     styles() {
       return css`
-        border: solid 10px ${color.teal};
+        border: solid 10px ${color.teal(30).css()};
         font-family: ${FontStack.mono};
         font-size: ${TextSize.xl};
         ${ rounded("20px") };
         ${ margin.y("20px") };
         
         transform:
+          perspective(5000px)
           rotateY(${ lerp(-20, 20, this.x) }deg)
-          rotateX(${ lerp(-20, 20, this.y) }deg);
+          rotateX(${ lerp(20, -20, this.y) }deg);
         
         box-shadow:
-          ${ shadow("10px", "cyan", 0.5) },
-          ${ shadow.inset("10px", "magenta", 0.5) };
+          ${ shadow("10px", color.skyBlue(50).css(), 0.5) },
+          ${ shadow.inset("10px", color.magenta(50).css(), 0.5) };
         
         &:hover {
-          color: ${ this.color };
+          color: ${ this.hoverColor };
         }
         
         h3 {
