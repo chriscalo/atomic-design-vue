@@ -18,53 +18,11 @@
         <th>95</th>
       </thead>
       <tbody>
-        <tr>
-          <th
-            :style="`
-              padding: 8px;
-              background: ${ color.neutralGrey(50) };
-              color: ${ textColor(color.neutralGrey(50)) };
-            `"
-          >Neutral grey</th>
-          <ColorCell
-            v-for="value in [5, 10, 20, 30, 40, 50, 60, 70, 80, 90, 95]"
-            :key="`Neutral Grey ${value}`"
-            :color="color.neutralGrey(value)"
-            :label="`Neutral Grey ${value}`"
-          />
-        </tr>
-        <tr>
-          <th
-            :style="`
-              padding: 8px;
-              background: ${ color.coolGrey(50) };
-              color: ${ textColor(color.coolGrey(50)) };
-            `"
-          >Cool grey</th>
-          <ColorCell
-            v-for="value in [5, 10, 20, 30, 40, 50, 60, 70, 80, 90, 95]"
-            :key="`Cool Grey ${value}`"
-            :color="color.coolGrey(value)"
-            :label="`Cool grey ${value}`"
-          />
-        </tr>
-        <tr>
-          <th
-            :style="`
-              padding: 8px;
-              background: ${ color.warmGrey(50) };
-              color: ${ textColor(color.warmGrey(50)) };
-            `"
-          >Warm grey</th>
-          <ColorCell
-            v-for="value in [5, 10, 20, 30, 40, 50, 60, 70, 80, 90, 95]"
-            :key="`Warm Grey ${value}`"
-            :color="color.warmGrey(value)"
-            :label="`Warm grey ${value}`"
-          />
-        </tr>
         <tr
           v-for="name in [
+            'neutralGrey',
+            'coolGrey',
+            'warmGrey',
             'hue15',
             'red',
             'burntOrange',
@@ -79,10 +37,11 @@
             'seaGreen',
             'teal',
             'aqua',
-            'hue225',
+            /* 'hue225',
             'skyBlue',
             'hue255',
-            'hue270',
+            'hue270', */
+            'navy',
             'blue',
             'indigo',
             'purple',

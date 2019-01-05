@@ -158,9 +158,9 @@ function ambient(z, color = "black", opacityShift = 0) {
 }
 
 export function elevation(z, color = "black", opacityShift = 0) {
-  return (`
-    ${ umbra(z, color, opacityShift) },
-    ${ penumbra(z, color, opacityShift) },
-    ${ ambient(z, color, opacityShift) }
-  `);
+  return [
+    umbra(z, color, opacityShift),
+    penumbra(z, color, opacityShift),
+    ambient(z, color, opacityShift),
+  ].join(", ");
 }

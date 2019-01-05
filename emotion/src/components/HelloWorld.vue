@@ -38,7 +38,7 @@ import { css } from "emotion";
 import * as color from "../design-system/colors";
 import { rounded } from "../design-system/borders";
 import { shadow, elevation } from "../design-system/shadows";
-import { margin } from "../design-system/size-spacing";
+import { margin } from "../design-system/spacing";
 import { FontStack, font, TextSize } from "../design-system/typography";
 import lerp from "lerp";
 
@@ -66,7 +66,7 @@ export default {
         
         box-shadow:
           ${ shadow.inset("10px", color.magenta(50), 0.5) },
-          ${ elevation(24, color.skyBlue(50)) };
+          ${ elevation(24, color.blue(50)) };
         
         &:hover {
           color: ${ this.hoverColor };
